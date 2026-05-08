@@ -2025,15 +2025,7 @@ for(const item of changedDays){
   updateSaveButtonProgress(team,_googleProgressDone,_googleProgressTotal);
 }
 
-      if(String(e?.error?.code||e?.code||"") === "401"){
-        localStorage.removeItem("shiftyyy_google_access_token");
-        googleAccessToken="";
-        if(!opts.silent){
-          alert("Google Verbindung abgelaufen. Bitte neu verbinden.");
-        }
-        return;
-      }
-    }
+ 
 
   // Speichern new sync snapshot
   saveGoogleSyncSnapshot(team,y,m,shifts);
@@ -2050,7 +2042,7 @@ for(const item of changedDays){
       `Google Diff Sync → Neu:${created} Updated:${updated} Deleted:${deleted} Skip:${skipped}`
     );
   }
-
+}
 
  function syncCurrentMonthToGoogle(){
   const team = MY_TEAM || "lag";
