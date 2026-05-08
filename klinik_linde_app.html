@@ -1996,41 +1996,34 @@ const _googleProgressTotal = changedDays.length || 1;
   let _googleProgressDone = 0;
 
   // Compare old vs new and only sync changed days
-  for(let i=0;i<shifts.length;i++){
+for(const item of changedDays){
 
-    const oldVal = oldSnapshot[i] ?? null;
-    const newVal = shifts[i] ?? null;
+  const i = item.i;
+  const newVal = item.val;
 
-    // unchanged => skip
-    if(oldVal === newVal){
-      skipped++;
-      _googleProgressDone++;
-      updateSaveButtonProgress(team,_googleProgressDone,_googleProgressTotal);
-      continue;
-    }
+  try{
+    await new Promise(r=>setTimeout(r,20));
 
-    try{
-      await new Promise(r=>setTimeout(r,100)); // small delay to avoid rate limiting
-      const r = await upsertGoogleShift(
-        team,
-        y,
-        m,
-        i+1,
-        newVal
-      );
+    const r = await upsertGoogleShift(
+      team,
+      y,
+      m,
+      i+1,
+      newVal
+    );
 
-      if(r.status==="created")created++;
-      else if(r.status==="updated")updated++;
-      else if(r.status==="deleted")deleted++;
-      else skipped++;
-      _googleProgressDone++;
-      updateSaveButtonProgress(team,_googleProgressDone,_googleProgressTotal);
+    if(r.status==="created")created++;
+    else if(r.status==="updated")updated++;
+    else if(r.status==="deleted")deleted++;
+    else skipped++;
 
-    }catch(e){
+  }catch(e){
+    errors++;
+  }
 
-      errors++;
-      _googleProgressDone++;
-      updateSaveButtonProgress(team,_googleProgressDone,_googleProgressTotal);
+  _googleProgressDone++;
+  updateSaveButtonProgress(team,_googleProgressDone,_googleProgressTotal);
+}
 
       if(String(e?.error?.code||e?.code||"") === "401"){
         localStorage.removeItem("shiftyyy_google_access_token");
