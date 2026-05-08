@@ -1438,7 +1438,9 @@ function saveMonth(t){
     saveSnap(t,y,m,shifts.slice());
     cloudSpeichern(t,y,m,shifts);
     if(typeof googleAccessToken!=='undefined' && googleAccessToken){
-      syncMonthToGoogle(t,{silent:true, force:true});
+     setTimeout(()=>{
+  syncMonthToGoogle(t,{silent:true, force:true});
+},1200);
     }
     const btn=document.getElementById(t+'-save-btn');if(btn){btn.className='btn-save';btn.textContent='Speichern';}
     showVid(t,()=>{
