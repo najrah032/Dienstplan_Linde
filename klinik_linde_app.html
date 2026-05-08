@@ -2700,7 +2700,7 @@ window.addEventListener('load',()=>{
     google.addEventListener("click", function(e){
       const url = getAboUrl();
       if(!url){ e.preventDefault(); alert("Keine Kalender-Abo URL gefunden"); return; }
-      google.href = "https://calendar.google.com/calendar/u/0/r/settings/addbyurl?cid=" + encodeURIComponent(url);
+      google.href = "https://calendar.google.com/calendar/render?cid=" + encodeURIComponent(url);
     });
   }
 
